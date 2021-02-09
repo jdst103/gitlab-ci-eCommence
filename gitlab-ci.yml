@@ -1,0 +1,24 @@
+image: java-tests-repository:latest
+
+default:
+  before_script: mvn install
+
+stage:
+  - compile
+  - test
+
+build:
+  stage: compile
+  script: 'javac -d/src/tests/suites/ -cp /lib/junit-4.12.jar /data/sets/users.java'
+
+registration:
+  stage: test
+  script: 'mvn clean test -Dtest=functional -Ddata_sets=users'
+
+payments:
+  stage: test
+  script: 'mvn clean test -Dtest=performance -Ddata_sets=users'
+
+orders:
+  stage: test
+  script: 'mvn clean test -Dtest=functional -Ddata_sets=users'
